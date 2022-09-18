@@ -9,10 +9,16 @@ body
 {
     height: 100vh;
     font-family: 'Poppins';
+    background-color: lightgray ;
+}
+h1{
+    font-family: Monument;
+    color: white;
 }
 
 .webgl
 {
+    z-index: 1;
     position: fixed;
     top: 0;
     left: 0;
