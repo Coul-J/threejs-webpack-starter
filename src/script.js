@@ -1,20 +1,23 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
+import {GUI} from 'dat.gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import gsap from 'gsap'
 
 
 const gltfLoader = new GLTFLoader()
 
 // Debug
-const gui = new dat.GUI()
+const gui = new GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+let tl = gsap.timeline()
 
 //the shoe
 gltfLoader.load('Imdone.gltf', (gltf) =>{
@@ -24,15 +27,23 @@ gltfLoader.load('Imdone.gltf', (gltf) =>{
     
     scene.add(gltf.scene)
 
+
+    gui.add(gltf.scene.position, 'x').min(0).max(9)
+    gui.add(gltf.scene.position, 'y').min(0).max(9)
+    gui.add(gltf.scene.position, 'z').min(0).max(9)
+
     gui.add(gltf.scene.rotation, 'x').min(0).max(9)
     gui.add(gltf.scene.rotation, 'y').min(0).max(9)
     gui.add(gltf.scene.rotation, 'z').min(0).max(9)
+
+    tl.to(gltf.scene.rotation, {y: 15,duration: 10, repeat:-1, ease:"linear"})
+    
 })
 
 
 // Lights
 
-const pointLight = new THREE.AmbientLight(0xffffff, 1)
+const pointLight = new THREE.AmbientLight(0xffffff, 1.5)
 pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 1
@@ -67,9 +78,11 @@ window.addEventListener('resize', () =>
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
-camera.position.y = 0
-camera.position.z = 2
+camera.position.y = 1
+camera.position.z = 5
 scene.add(camera)
+
+
 
 // Controls
 // const controls = new OrbitControls(camera, canvas)
