@@ -7,7 +7,7 @@ import gsap from 'gsap'
 
 
 const gltfLoader = new GLTFLoader()
-
+// const controls = new OrbitControls(camera, renderer.domElement);
 // Debug
 const gui = new GUI()
 
@@ -20,8 +20,8 @@ const scene = new THREE.Scene()
 let tl = gsap.timeline()
 
 //the shoe
-gltfLoader.load('Imdone.gltf', (gltf) =>{
-    gltf.scene.scale.set(1,1,1)
+gltfLoader.load('Im done.gltf', (gltf) =>{
+    gltf.scene.scale.set(1.2,1.2,1.2)
     gltf.scene.rotation.set(0,2.5,0)
     
     
@@ -47,6 +47,9 @@ const pointLight = new THREE.AmbientLight(0xffffff, 1.5)
 pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 1
+
+
+
 scene.add(pointLight)
 
 /**
@@ -80,7 +83,14 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.x = 0
 camera.position.y = 1
 camera.position.z = 5
+
+gui.add(camera.position, 'x').min(0).max(9)
+gui.add(camera.position, 'y').min(0).max(9)
+gui.add(camera.position, 'z').min(0).max(9)
 scene.add(camera)
+
+
+
 
 
 

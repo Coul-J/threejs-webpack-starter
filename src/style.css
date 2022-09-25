@@ -9,7 +9,7 @@ body
 {
     height: 100vh;
     font-family: 'Poppins';
-    background: lightgray ;
+    background: rgb(201, 31, 31) ;
 }
 h1{
     font-family: Monument;
