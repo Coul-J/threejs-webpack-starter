@@ -43,7 +43,7 @@ gltfLoader.load('Imdone.gltf', (gltf) =>{
 
 // Lights
 
-const pointLight = new THREE.AmbientLight(0xaaaaa, 1.5)
+const pointLight = new THREE.AmbientLight(0xffffff, 1.5)
 pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 1
