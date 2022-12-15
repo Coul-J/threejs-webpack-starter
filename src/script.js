@@ -1,10 +1,15 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
+import {GUI} from 'dat.gui'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import gsap from 'gsap'
 
+
+const gltfLoader = new GLTFLoader()
+// const controls = new OrbitControls(camera, renderer.domElement);
 // Debug
-const gui = new dat.GUI()
+const gui = new GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -12,24 +17,39 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-// Objects
-const geometry = new THREE.TorusGeometry( .7, .2, 16, 100 );
+let tl = gsap.timeline()
 
-// Materials
+//the shoe
+gltfLoader.load('Im done.gltf', (gltf) =>{
+    gltf.scene.scale.set(1.2,1.2,1.2)
+    gltf.scene.rotation.set(0,2.5,0)
+    
+    
+    scene.add(gltf.scene)
 
-const material = new THREE.MeshBasicMaterial()
-material.color = new THREE.Color(0xff0000)
 
-// Mesh
-const sphere = new THREE.Mesh(geometry,material)
-scene.add(sphere)
+    gui.add(gltf.scene.position, 'x').min(0).max(9)
+    gui.add(gltf.scene.position, 'y').min(0).max(9)
+    gui.add(gltf.scene.position, 'z').min(0).max(9)
+
+    gui.add(gltf.scene.rotation, 'x').min(0).max(9)
+    gui.add(gltf.scene.rotation, 'y').min(0).max(9)
+    gui.add(gltf.scene.rotation, 'z').min(0).max(9)
+
+    tl.to(gltf.scene.rotation, {y: 15,duration: 10, repeat:-1, ease:"linear"})
+    
+})
+
 
 // Lights
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1)
+const pointLight = new THREE.AmbientLight(0xffffff, 1.5)
 pointLight.position.x = 2
 pointLight.position.y = 3
-pointLight.position.z = 4
+pointLight.position.z = 1
+
+
+
 scene.add(pointLight)
 
 /**
@@ -61,9 +81,18 @@ window.addEventListener('resize', () =>
 // Base camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
 camera.position.x = 0
-camera.position.y = 0
-camera.position.z = 2
+camera.position.y = 1
+camera.position.z = 5
+
+gui.add(camera.position, 'x').min(0).max(9)
+gui.add(camera.position, 'y').min(0).max(9)
+gui.add(camera.position, 'z').min(0).max(9)
 scene.add(camera)
+
+
+
+
+
 
 // Controls
 // const controls = new OrbitControls(camera, canvas)
@@ -73,7 +102,8 @@ scene.add(camera)
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    alpha: true
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -90,7 +120,7 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
 
     // Update objects
-    sphere.rotation.y = .5 * elapsedTime
+    // sphere.rotation.y = .5 * elapsedTime
 
     // Update Orbital Controls
     // controls.update()
